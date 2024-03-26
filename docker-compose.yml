@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+    web:
+        image: node:14
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./src:/app/src
+            - ./src/package.json:/app/package.json
+        command: npm run dev
+        working_dir: /app
+        depends_on:
+            - app-init
+        networks:
+            - backend
+
+    app-init:
+        image: busybox
+        volumes:
+            - ./src:/app/src
+        command: echo "p5.js practice app initialized"
+
+networks:
+    backend:
+        driver: bridge
